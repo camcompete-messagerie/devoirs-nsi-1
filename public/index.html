@@ -24,21 +24,24 @@
     .catch(e => document.getElementById('ip').innerText = 'Erreur : ' + e.message);
 </script>
   <script>
-    let reveal = false;
+    let revealP = false;
+    let revealT = false;
 
     async function loadFilesPremiere() {
-      document.getElementById("term").style.display = "none";
-      document.getElementById("premiere").style.display = "none";
-      const div = document.createElement("div");
-      div.innerHTML = `<input checked="" id="option1" name="options" type="radio">
-                        <label class="option" for="option1">Première</label>
-                        <input id="option2" name="options" type="radio"/>
-                        <label class="option" for="option2">Terminale</label>
-                        <span class="background"></span>`;
-      div.classList.add("filter-switch");
-      div.id = "firstFilter";
-      document.getElementById("barre").appendChild(div);
-      reveal = true;
+      if (!revealP && !revealT) {
+        document.getElementById("term").style.display = "none";
+        document.getElementById("premiere").style.display = "none";
+        const div = document.createElement("div");
+        div.innerHTML = `<input checked="" id="option1" name="options" type="radio">
+                          <label class="option" for="option1">Première</label>
+                          <input id="option2" name="options" type="radio"/>
+                          <label class="option" for="option2">Terminale</label>
+                          <span class="background"></span>`;
+        div.classList.add("filter-switch");
+        div.id = "firstFilter";
+        document.getElementById("barre").appendChild(div);
+      }
+      revealP = true;
       const res = await fetch("/api/premiere");
       const files = await res.json();
 
@@ -65,18 +68,20 @@
     }
 
     async function loadFilesTerm() {
-      document.getElementById("term").style.display = "none";
-      document.getElementById("premiere").style.display = "none";
-      const div = document.createElement("div");
-      div.innerHTML = `<input checked="" id="option1" name="options" type="radio">
-                        <label class="option" for="option1">Première</label>
-                        <input id="option2" name="options" type="radio"/>
-                        <label class="option" for="option2">Terminale</label>
-                        <span class="background"></span>`;
-      div.classList.add("filter-switch");
-      div.id = "firstFilter";
-      document.getElementById("barre").appendChild(div);
-      reveal = true;
+      if (!revealP && !revealT) {
+        document.getElementById("term").style.display = "none";
+        document.getElementById("premiere").style.display = "none";
+        const div = document.createElement("div");
+        div.innerHTML = `<input checked="" id="option1" name="options" type="radio">
+                          <label class="option" for="option1">Première</label>
+                          <input id="option2" name="options" type="radio"/>
+                          <label class="option" for="option2">Terminale</label>
+                          <span class="background"></span>`;
+        div.classList.add("filter-switch");
+        div.id = "firstFilter";
+        document.getElementById("barre").appendChild(div);
+      }
+      revealT = true;
       const res = await fetch("/api/Term");
       const files = await res.json();
 
@@ -102,31 +107,25 @@
       });
     }
 
-    document.getElementById("firstFilter").addEventListener("click", () => {
+    document.getElementById("barre").addEventListener("click", () => {
       if (document.getElementById("option1").checked) {
         try {
-          document.querySelectorAll(".file-cardT").classList.add("hidden");
-          document.querySelectorAll(".file-cardP").classList.remove("hidden");
-        } catch {
-          try {
-            document.querySelectorAll(".file-cardP").classList.remove("hidden");
-          } catch {
-            document.querySelectorAll(".file-cardT").classList.add("hidden");
+          document.querySelectorAll(".file-cardT").forEach((e) => {e.classList.add("hidden")});
+        } catch {}
+        if (revealP) {
+            document.querySelectorAll(".file-cardP").forEach((e) => {e.classList.remove("hidden")});
+          } else {
             loadFilesPremiere();
           }
-        }
       } else if (document.getElementById("option2").checked) {
         try {
-          document.querySelectorAll(".file-cardP").classList.add("hidden");
-          document.querySelectorAll(".file-cardT").classList.remove("hidden");
-        } catch {
-          try {
-            document.querySelectorAll(".file-cardT").classList.remove("hidden");
-          } catch {
-            document.querySelectorAll(".file-cardP").classList.add("hidden");
-            loadFilesPremiere();
+          document.querySelectorAll(".file-cardP").forEach((e) => {e.classList.add("hidden")});
+        } catch {}
+        if (revealT) {
+            document.querySelectorAll(".file-cardT").forEach((e) => {e.classList.remove("hidden")});
+          } else {
+            loadFilesTerm();
           }
-        }
       }
     })
   </script>
