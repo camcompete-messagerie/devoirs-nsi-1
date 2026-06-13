@@ -9,11 +9,19 @@
 <body>
   <h1>Devoirs de NSI</h1>
   <div id="files-container">
-    <button id="premiere" class="file-card" onclick="loadFilesPremiere()"><h3>Première</h3></button>
-    <button id="term" class="file-card" onclick="loadFilesTerm()"><h3>Terminale</h3></button>
+    <button id="premiere" class="title" onclick="loadFilesPremiere()"><h3>Première</h3></button>
+    <button id="term" class="title" onclick="loadFilesTerm()"><h3>Terminale</h3></button>
+  </div>
+  <div id="firstFilter" class="filter-switch hidden">
+    <input checked="" id="option1" name="options" type="radio" />
+    <label class="option" for="option1">Première</label>
+    <input id="option2" name="options" type="radio" />
+    <label class="option" for="option2">Terminale</label>
+    <span class="background"></span>
   </div>
   <b>coded with ❤️ by Timothée PIOTRE / THEvenger</b></footer>
   <div id="ip"></div>
+  
 <script>
   fetch('/my-ip')
     .then(r => r.json())
@@ -21,9 +29,13 @@
     .catch(e => document.getElementById('ip').innerText = 'Erreur : ' + e.message);
 </script>
   <script>
+    let reveal = false;
+
     async function loadFilesPremiere() {
       document.getElementById("term").style.display = "none";
       document.getElementById("premiere").style.display = "none";
+      document.getElementById("firstFilter").classList.remove("hidden");
+      reveal = true;
       const res = await fetch("/api/premiere");
       const files = await res.json();
 
@@ -31,7 +43,7 @@
 
       files.forEach(file => {
         const div = document.createElement("div");
-        div.className = "file-card";
+        div.className = "file-cardP";
 
         // Nom du fichier
         const title = document.createElement("h3");
@@ -52,6 +64,8 @@
     async function loadFilesTerm() {
       document.getElementById("term").style.display = "none";
       document.getElementById("premiere").style.display = "none";
+      document.getElementById("firstFilter").classList.remove("hidden");
+      reveal = true;
       const res = await fetch("/api/Term");
       const files = await res.json();
 
@@ -59,7 +73,7 @@
 
       files.forEach(file => {
         const div = document.createElement("div");
-        div.className = "file-card";
+        div.className = "file-cardT";
 
         // Nom du fichier
         const title = document.createElement("h3");
@@ -77,6 +91,33 @@
       });
     }
 
+    document.getElementById("firstFilter").addEventListener("click", () => {
+      if (document.getElementById("option1").checked) {
+        try {
+          document.querySelectorAll(".file-cardT").classList.add("hidden");
+          document.querySelectorAll(".file-cardP").classList.remove("hidden");
+        } catch {
+          try {
+            document.querySelectorAll(".file-cardP").classList.remove("hidden");
+          } catch {
+            document.querySelectorAll(".file-cardT").classList.add("hidden");
+            loadFilesPremiere();
+          }
+        }
+      } else if (document.getElementById("option2").checked) {
+        try {
+          document.querySelectorAll(".file-cardP").classList.add("hidden");
+          document.querySelectorAll(".file-cardT").classList.remove("hidden");
+        } catch {
+          try {
+            document.querySelectorAll(".file-cardT").classList.remove("hidden");
+          } catch {
+            document.querySelectorAll(".file-cardP").classList.add("hidden");
+            loadFilesPremiere();
+          }
+        }
+      }
+    })
   </script>
 </body>
 </html>
