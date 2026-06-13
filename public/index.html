@@ -9,8 +9,8 @@
 <body>
   <h1>Devoirs de NSI</h1>
   <div id="files-container">
-    <div id="premiere" class="file-card" onclick="loadFilesPremiere()"><h3>Première</h3></div>
-    <div id="term" class="file-card" onclick="loadFilesTerm()"><h3>Terminale</h3></div>
+    <button id="premiere" class="file-card" onclick="loadFilesPremiere()"><h3>Première</h3></button>
+    <button id="term" class="file-card" onclick="loadFilesTerm()"><h3>Terminale</h3></button>
   </div>
   <b>coded with ❤️ by Timothée PIOTRE / THEvenger</b></footer>
   <div id="ip"></div>
@@ -22,6 +22,7 @@
 </script>
   <script>
     async function loadFilesPremiere() {
+      alert("click")
       document.getElementById("term").style.display = "hidden";
       document.getElementById("premiere").style.display = "hidden";
       const res = await fetch("/api/premiere");
@@ -50,6 +51,7 @@
     }
 
     async function loadFilesTerm() {
+      alert("click")
       document.getElementById("term").style.display = "hidden";
       document.getElementById("premiere").style.display = "hidden";
       const res = await fetch("/api/Term");
