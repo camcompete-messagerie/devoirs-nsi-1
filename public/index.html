@@ -13,10 +13,10 @@
     <button id="term" class="title" onclick="loadFilesTerm()"><h3>Terminale</h3></button>
   </div>
   <div id="firstFilter" class="filter-switch hidden">
-    <input checked="" id="option1" name="options" type="radio" />
-    <label class="option" for="option1">Première</label>
-    <input id="option2" name="options" type="radio" />
-    <label class="option" for="option2">Terminale</label>
+    <input checked="" id="option1" name="options" type="radio" class="hidden">
+    <label class="option" for="option1" class="hidden">Première</label>
+    <input id="option2" name="options" type="radio" class="hidden"/>
+    <label class="option" for="option2" class="hidden">Terminale</label>
     <span class="background"></span>
   </div>
   <b>coded with ❤️ by Timothée PIOTRE / THEvenger</b></footer>
@@ -34,7 +34,7 @@
     async function loadFilesPremiere() {
       document.getElementById("term").style.display = "none";
       document.getElementById("premiere").style.display = "none";
-      document.getElementById("firstFilter").classList.remove("hidden");
+      document.querySelectorAll(".hidden").classList.remove("hidden");
       reveal = true;
       const res = await fetch("/api/premiere");
       const files = await res.json();
@@ -64,7 +64,7 @@
     async function loadFilesTerm() {
       document.getElementById("term").style.display = "none";
       document.getElementById("premiere").style.display = "none";
-      document.getElementById("firstFilter").classList.remove("hidden");
+      document.querySelectorAll(".hidden").classList.remove("hidden");
       reveal = true;
       const res = await fetch("/api/Term");
       const files = await res.json();
