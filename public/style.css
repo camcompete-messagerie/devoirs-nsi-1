@@ -136,3 +136,7 @@ a:hover {
 #option2:not(:checked) + label[for="option2"] {
   color: #7d7d7d;
 }
+
+#signature {
+  margin-top: 10px;
+}
