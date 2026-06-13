@@ -22,9 +22,8 @@
 </script>
   <script>
     async function loadFilesPremiere() {
-      alert("click")
-      document.getElementById("term").style.display = "hidden";
-      document.getElementById("premiere").style.display = "hidden";
+      document.getElementById("term").style.display = "none";
+      document.getElementById("premiere").style.display = "none";
       const res = await fetch("/api/premiere");
       const files = await res.json();
 
@@ -51,9 +50,8 @@
     }
 
     async function loadFilesTerm() {
-      alert("click")
-      document.getElementById("term").style.display = "hidden";
-      document.getElementById("premiere").style.display = "hidden";
+      document.getElementById("term").style.display = "none";
+      document.getElementById("premiere").style.display = "none";
       const res = await fetch("/api/Term");
       const files = await res.json();
 
